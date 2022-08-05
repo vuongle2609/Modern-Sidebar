@@ -31,30 +31,37 @@ function App() {
   const itemsSidebar = [
     {
       label: "Dashboard",
+      path: "/",
       icon: <i className="fa-light fa-grid-horizontal"></i>,
     },
     {
       label: "Orders",
+      path: "/Orders",
       icon: <i className="fa-light fa-cart-shopping"></i>,
     },
     {
       label: "Products",
+      path: "/Products",
       icon: <i className="fa-light fa-bag-shopping"></i>,
     },
     {
       label: "Overview",
+      path: "/Overview",
       icon: <i className="fa-light fa-chart-line"></i>,
     },
     {
       label: "Customer",
+      path: "/Customer",
       icon: <i className="fa-light fa-user-group"></i>,
     },
     {
       label: "Message",
+      path: "/Message",
       icon: <i className="fa-light fa-comment-dots"></i>,
     },
     {
       label: "Settings",
+      path: "/Settings",
       icon: <i className="fa-light fa-gear"></i>,
     },
   ];
@@ -71,7 +78,8 @@ function App() {
         <div className="Container-menu">
           {itemsSidebar.map((item, index) => (
             <NavLink
-              to={item.label.toLowerCase()}
+              to={item.path}
+              end
               className={(link) => {
                 return (
                   (link.isActive ? "Item-active " : " ") +
@@ -88,7 +96,7 @@ function App() {
       </div>
       <div className="main">
         <Routes>
-          <Route element={<div>Dashboard</div>} path="dashboard" />
+          <Route element={<div>Dashboard</div>} index />
           <Route element={<div>Orders</div>} path="orders" />
           <Route element={<div>Products</div>} path="products" />
           <Route element={<div>Overview</div>} path="overview" />
