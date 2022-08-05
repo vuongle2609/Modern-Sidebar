@@ -10,9 +10,19 @@
   margin: 0;
 }
 
+a {
+  color: #000;
+  text-decoration: none;
+}
+
 .App {
   user-select: none;
   position: relative;
+  display: flex;
+
+  .main {
+    padding: 30px;
+  }
 
   .SideBar {
     height: 100vh;
@@ -52,6 +62,7 @@
         padding: 14px 18px;
         border-radius: 8px;
         cursor: pointer;
+        transition: all 0.3s linear;
 
         i {
           font-size: 20px;
@@ -74,7 +85,7 @@
       border-radius: 8px;
       z-index: 1;
       position: fixed;
-      transition: all 0.1s ease-in-out;
+      transition: all 0.3s ease-in-out;
     }
   }
 }

@@ -1,33 +1,32 @@
 import { useEffect, useRef, useState } from "react";
+import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import "./App.scss";
 import { getAttr } from "./cal";
 
 function App() {
-  const [selectItem, setSelectItem] = useState<any>(null);
+  const firstRun = useRef(true);
   const boxActive = useRef<any>(null);
+  const location = useLocation();
   const [styleBoxSelect, setStyleBoxSelect] = useState<any>({});
 
   useEffect(() => {
-    if (selectItem?.target?.closest(".Container-items")) {
-      let selectedBoxAtrr;
-      const box: any = document.getElementsByClassName(".box-active");
-      // box.classList.remove("box-active");
-
-      if (
-        selectItem.target.parentElement.classList.contains("Container-items")
-      ) {
-        selectedBoxAtrr = getAttr(selectItem.target.parentElement);
-      } else {
-        selectedBoxAtrr = getAttr(selectItem.target);
+    if (!firstRun.current) {
+      const links: any = document.getElementsByClassName("Container-items");
+      for (let i = 0; i < links.length; i++) {
+        links[i].style.color = "#000";
       }
-      console.log(
-        "🚀 ~ file: App.tsx ~ line 24 ~ useEffect ~ selectedBoxAtrr",
-        selectedBoxAtrr
-      );
-
-      setStyleBoxSelect(selectedBoxAtrr);
     }
-  }, [selectItem]);
+    const linkActive: any = document.getElementsByClassName("Item-active")[0];
+    linkActive.style.color = "#fff";
+  }, [location.pathname]);
+
+  useEffect(() => {
+    let selectedBoxAtrr;
+    const linkActive: any = document.getElementsByClassName("Item-active")[0];
+    selectedBoxAtrr = getAttr(linkActive);
+    firstRun.current = false;
+    setStyleBoxSelect(selectedBoxAtrr);
+  }, [location.pathname]);
 
   const itemsSidebar = [
     {
@@ -71,15 +70,32 @@ function App() {
         <div id="ActiveBox" ref={boxActive} style={styleBoxSelect}></div>
         <div className="Container-menu">
           {itemsSidebar.map((item, index) => (
-            <div
-              className={"Container-items " + `item-${index}`}
-              onClick={setSelectItem}
+            <NavLink
+              to={item.label.toLowerCase()}
+              className={(link) => {
+                return (
+                  (link.isActive ? "Item-active " : " ") +
+                  "Container-items " +
+                  `item-${index}`
+                );
+              }}
             >
               {item.icon}
               <div className="text">{item.label}</div>
-            </div>
+            </NavLink>
           ))}
         </div>
+      </div>
+      <div className="main">
+        <Routes>
+          <Route element={<div>Dashboard</div>} path="dashboard" />
+          <Route element={<div>Orders</div>} path="orders" />
+          <Route element={<div>Products</div>} path="products" />
+          <Route element={<div>Overview</div>} path="overview" />
+          <Route element={<div>Customer</div>} path="customer" />
+          <Route element={<div>Message</div>} path="message" />
+          <Route element={<div>Settings</div>} path="settings" />
+        </Routes>
       </div>
     </div>
   );
