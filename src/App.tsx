@@ -21,11 +21,27 @@ function App() {
   }, [location.pathname]);
 
   useEffect(() => {
-    let selectedBoxAtrr;
-    const linkActive: any = document.getElementsByClassName("Item-active")[0];
-    selectedBoxAtrr = getAttr(linkActive);
-    firstRun.current = false;
-    setStyleBoxSelect(selectedBoxAtrr);
+    const render = () => {
+      let selectedBoxAtrr;
+      const linkActive: any = document.getElementsByClassName("Item-active")[0];
+      console.log(
+        "🚀 ~ file: App.tsx ~ line 26 ~ useEffect ~ linkActive",
+        document.getElementsByClassName("Item-active")
+      );
+      selectedBoxAtrr = getAttr(linkActive);
+      console.log(
+        "🚀 ~ file: App.tsx ~ line 31 ~ useEffect ~ selectedBoxAtrr",
+        selectedBoxAtrr
+      );
+      firstRun.current = false;
+      setStyleBoxSelect(selectedBoxAtrr);
+    };
+
+    if (!firstRun.current) {
+      render();
+    } else {
+      setTimeout(() => render(), 1000);
+    }
   }, [location.pathname]);
 
   const itemsSidebar = [
@@ -78,6 +94,7 @@ function App() {
         <div className="Container-menu">
           {itemsSidebar.map((item, index) => (
             <NavLink
+              key={item.path}
               to={item.path}
               end
               className={(link) => {
